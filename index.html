@@ -157,6 +157,18 @@ section{padding:clamp(64px,9vw,120px) 0;border-bottom:1.5px solid var(--ink)}
 .exp-row p{color:var(--ink-soft);font-size:.97rem;max-width:720px}
 @media(max-width:640px){.exp-row{grid-template-columns:1fr}}
 
+/* process steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--ink)}
+.step{padding:clamp(26px,3.4vw,44px);position:relative}
+.step+.step{border-left:1.5px solid var(--ink)}
+.step-n{font-family:'Piazzolla',serif;font-style:italic;font-weight:700;font-size:clamp(2.6rem,5vw,4rem);
+  color:var(--red);line-height:1;margin-bottom:18px}
+.step h3{font-size:clamp(1.2rem,2.2vw,1.55rem);font-weight:600;margin-bottom:12px}
+.step p{color:var(--ink-soft);font-size:.96rem}
+.step-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  margin-top:20px;display:inline-block;background:var(--ink);color:var(--paper);padding:5px 12px}
+@media(max-width:820px){.steps{grid-template-columns:1fr}.step+.step{border-left:none;border-top:1.5px solid var(--ink)}}
+
 /* ============ CONTACT (ink block) ============ */
 .contact{background:var(--ink);color:var(--paper);padding:clamp(70px,10vw,130px) 0;border-bottom:none;position:relative;overflow:hidden}
 .contact .big{font-family:'Piazzolla',serif;font-size:clamp(2.4rem,6.4vw,5rem);font-weight:600;line-height:1.02;letter-spacing:-.015em;max-width:900px}
@@ -196,6 +208,7 @@ footer .legal{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spaci
       <a href="#services">Услуги</a>
       <a href="#cases">Кейсы</a>
       <a href="#experience">Опыт</a>
+      <a href="#process">Процесс</a>
     </div>
     <div class="cell"><a href="#contact" class="tb-cta">Обсудить задачу</a></div>
   </div>
@@ -359,6 +372,44 @@ footer .legal{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spaci
           <p>Парсинг ЦА в соцсетях для онлайн-курсов, холодные рассылки, ведение лидов по воронке продаж до оплаты.</p>
         </div>
       </div>
+      <div class="exp-row rv">
+        <div class="when">Сертификат</div>
+        <div>
+          <div class="role">Обучение Google: создание AI-агентов</div>
+          <div class="where">Google · сертификат</div>
+          <p>Проектирование и разработка AI-агентов: архитектура, инструменты, интеграция в рабочие процессы.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-no">№ 04</div>
+      <h2 class="sec-title">Как проходит работа</h2>
+      <p class="sec-note">Прозрачно и без предоплаты за «воздух»: сначала вы видите план и цифры, потом решаете.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv">
+        <div class="step-n">1</div>
+        <h3>Разбор задачи</h3>
+        <p>Созвон или переписка на 15–20 минут: где сейчас уходит время и деньги, что делается руками.</p>
+        <div class="step-tag">Бесплатно</div>
+      </div>
+      <div class="step rv">
+        <div class="step-n">2</div>
+        <h3>План с цифрами</h3>
+        <p>Присылаю конкретный план: что автоматизируем, сколько часов в месяц это сэкономит, сроки и стоимость.</p>
+        <div class="step-tag">1–2 дня</div>
+      </div>
+      <div class="step rv">
+        <div class="step-n">3</div>
+        <h3>Внедрение</h3>
+        <p>Собираю систему, показываю на реальных данных, передаю с инструкцией. Первый месяц — поддержка и правки включены.</p>
+        <div class="step-tag">От 1 недели</div>
+      </div>
     </div>
   </div>
 </section>
@@ -366,7 +417,7 @@ footer .legal{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spaci
 <section class="contact" id="contact">
   <div class="wrap">
     <div class="big rv">Давайте поставим ваш маркетинг <em>на автопилот</em></div>
-    <p class="rv">Опишите задачу — предложу, что можно автоматизировать и с чего начать. Отвечаю быстро.</p>
+    <p class="rv">Опишите задачу — в ответ пришлю короткий план: что автоматизировать, сколько часов в месяц это сэкономит и во сколько обойдётся. Бесплатно и ни к чему не обязывает.</p>
     <div class="c-links rv">
       <a href="https://t.me/Romanov_tech" class="c-btn c-btn-solid">Telegram</a>
       <a href="mailto:artemromanov.official@gmail.com" class="c-btn c-btn-line">Почта</a>
