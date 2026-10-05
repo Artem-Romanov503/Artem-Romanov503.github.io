@@ -62,7 +62,8 @@
         var r = a * Math.PI / 180, c = Math.cos(r);
         el.style.visibility = 'visible';
         el.style.transform = 'translate3d(' + (R * Math.sin(r)).toFixed(2) + 'px,0,' + (R * (1 - c)).toFixed(2) + 'px) rotateY(' + (-a).toFixed(3) + 'deg)';
-        el.style.filter = 'brightness(' + (0.7 + 0.3 * Math.pow(c, 6)).toFixed(3) + ')';
+        // затемнение краёв прозрачностью: фон тёмный, а opacity не перерисовывает карточку, в отличие от filter
+        el.style.opacity = (0.5 + 0.5 * Math.pow(c, 6)).toFixed(3);
       }
     }
 
@@ -137,14 +138,14 @@
     var sib = el.parentNode.children, i = Array.prototype.indexOf.call(sib, el);
     if (el.matches('.year__list li, .auto li, .m')) el.style.setProperty('--d', (i % 4) * 0.09 + 's');
   });
-  var counters = $$('.fact__n, .nums b, .year__n, .year__list b');
+  var counters = $$('.fact__n, .year__n');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         e.target.classList.add('in');
-        $$('.fact__n, .nums b, .year__n, .year__list b', e.target).forEach(countUp);
-        if (e.target.matches('.fact__n, .nums b, .year__n, .year__list b')) countUp(e.target);
+        $$('.fact__n, .year__n', e.target).forEach(countUp);
+        if (e.target.matches('.fact__n, .year__n')) countUp(e.target);
         io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
@@ -223,20 +224,6 @@
   // Прокрутка: контурные слова едут, нить прогресса растёт, активный раздел подсвечен в меню.
   var words = $$('.bigword'), links = $$('.links a'), secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
   var ticking = false;
-  var stack = $$('.cases .case, .cases .group'), stackOn = false;
-  // Липкий верх карточки: высокая карточка прилипает, только когда её низ дошёл до низа экрана,
-  // иначе следующая наехала бы на непрочитанный текст.
-  function stackSetup() {
-    stackOn = innerWidth > 980 && !reduce.matches;
-    stack.forEach(function (el) {
-      if (!stackOn) { el.style.removeProperty('--top'); el.style.removeProperty('--sc'); el.style.removeProperty('--br'); return; }
-      el.style.setProperty('--top', Math.min(96, innerHeight - el.offsetHeight - 24) + 'px');
-    });
-  }
-  stackSetup();
-  addEventListener('resize', function () { stackSetup(); onScroll(); });
-  addEventListener('load', function () { stackSetup(); onScroll(); });
-  $$('.cases img').forEach(function (im) { im.addEventListener('load', stackSetup); });
   function onScroll() {
     ticking = false;
     var y = scrollY, vh = innerHeight, h = document.documentElement.scrollHeight - vh;
@@ -244,15 +231,6 @@
     if (!reduce.matches) words.forEach(function (w, i) {
       var r = w.parentNode.getBoundingClientRect(), p = (vh - r.top) / (vh + r.height);
       w.style.setProperty('--bx', ((p - .5) * (i % 2 ? 260 : -260)).toFixed(1) + 'px');
-    });
-    // стопка кейсов: та карточка, на которую наезжает следующая, отъезжает вглубь и темнеет
-    if (stackOn) stack.forEach(function (el, i) {
-      var nx = stack[i + 1];
-      if (!nx || !el.classList.contains('case')) return;
-      var h = el.offsetHeight, top = el.getBoundingClientRect().top, p = (top + h - nx.getBoundingClientRect().top) / h;
-      p = Math.max(0, Math.min(1, p));
-      el.style.setProperty('--sc', (1 - .06 * p).toFixed(4));
-      el.style.setProperty('--br', (1 - .45 * p).toFixed(4));
     });
     var cur = -1;
     secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < vh * .4) cur = i; });
