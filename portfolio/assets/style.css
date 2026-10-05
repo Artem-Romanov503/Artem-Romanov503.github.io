@@ -20,7 +20,7 @@ img,video{display:block;max-width:100%;height:auto}
 a{color:inherit}
 p,h1,h2,h3,h4,ul,dl,dd,figure{margin:0;padding:0}
 ul{list-style:none}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:28px;padding-right:28px}
 section[id],footer[id]{scroll-margin-top:72px}
 
 /* top */
@@ -134,7 +134,7 @@ a:focus-visible,.btn:focus-visible,video:focus-visible{outline:2px solid var(--a
 }
 @media (max-width:640px){
   body{font-size:16.5px}
-  .wrap{padding:0 18px}
+  .wrap{padding-left:18px;padding-right:18px}
   .top__nav{gap:16px;font-size:14px}
   .top__name{font-size:15px}
   .lead{font-size:18px}
