@@ -223,6 +223,20 @@
   // Прокрутка: контурные слова едут, нить прогресса растёт, активный раздел подсвечен в меню.
   var words = $$('.bigword'), links = $$('.links a'), secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
   var ticking = false;
+  var stack = $$('.cases .case, .cases .group'), stackOn = false;
+  // Липкий верх карточки: высокая карточка прилипает, только когда её низ дошёл до низа экрана,
+  // иначе следующая наехала бы на непрочитанный текст.
+  function stackSetup() {
+    stackOn = innerWidth > 980 && !reduce.matches;
+    stack.forEach(function (el) {
+      if (!stackOn) { el.style.removeProperty('--top'); el.style.removeProperty('--sc'); el.style.removeProperty('--br'); return; }
+      el.style.setProperty('--top', Math.min(96, innerHeight - el.offsetHeight - 24) + 'px');
+    });
+  }
+  stackSetup();
+  addEventListener('resize', function () { stackSetup(); onScroll(); });
+  addEventListener('load', function () { stackSetup(); onScroll(); });
+  $$('.cases img').forEach(function (im) { im.addEventListener('load', stackSetup); });
   function onScroll() {
     ticking = false;
     var y = scrollY, vh = innerHeight, h = document.documentElement.scrollHeight - vh;
@@ -230,6 +244,15 @@
     if (!reduce.matches) words.forEach(function (w, i) {
       var r = w.parentNode.getBoundingClientRect(), p = (vh - r.top) / (vh + r.height);
       w.style.setProperty('--bx', ((p - .5) * (i % 2 ? 260 : -260)).toFixed(1) + 'px');
+    });
+    // стопка кейсов: та карточка, на которую наезжает следующая, отъезжает вглубь и темнеет
+    if (stackOn) stack.forEach(function (el, i) {
+      var nx = stack[i + 1];
+      if (!nx || !el.classList.contains('case')) return;
+      var h = el.offsetHeight, top = el.getBoundingClientRect().top, p = (top + h - nx.getBoundingClientRect().top) / h;
+      p = Math.max(0, Math.min(1, p));
+      el.style.setProperty('--sc', (1 - .06 * p).toFixed(4));
+      el.style.setProperty('--br', (1 - .45 * p).toFixed(4));
     });
     var cur = -1;
     secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < vh * .4) cur = i; });

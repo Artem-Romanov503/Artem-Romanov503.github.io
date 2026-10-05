@@ -25,7 +25,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 p,h1,h2,h3,h4,ul,dl,dd,figure{margin:0;padding:0}
@@ -194,7 +194,7 @@ figcaption b,.m__cap b{color:var(--ink);font-weight:600}
 /* ---------- тёмные разделы ---------- */
 .dark{position:relative;background:var(--space);color:#fff;isolation:isolate}
 .dark::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(60% 40% at 80% 0%,rgba(25,127,255,.10),rgba(25,127,255,0) 70%),radial-gradient(50% 35% at 10% 100%,rgba(21,188,223,.08),rgba(21,188,223,0) 70%)}
+  background:radial-gradient(60% 40% at 80% 0%,rgba(25,127,255,.10),rgba(25,127,255,0) 70%),radial-gradient(50% 35% at 10% 60%,rgba(21,188,223,.08),rgba(21,188,223,0) 70%)}
 .dark .sub,.dark .m__cap,.dark figcaption{color:var(--on-dark)}
 .dark .m__cap b,.dark figcaption b{color:#fff}
 .dark .textlink{color:var(--cyan-hi)}
@@ -328,6 +328,8 @@ a:focus-visible,.glow:focus-visible,.chip:focus-visible,button:focus-visible,vid
    так что без скрипта страница целиком видна.
    ===================================================================== */
 html{overflow-x:clip}
+/* clip, а не hidden: hidden делает раздел прокручиваемым контейнером и ломает липкие карточки */
+.creatives,.ribbons,.foot{overflow-x:clip}
 .cases,.hiring{position:relative;isolation:isolate}
 
 /* гигантское контурное слово за разделом, едет по горизонтали при прокрутке */
@@ -458,4 +460,79 @@ html{overflow-x:clip}
   .case__body::before{font-size:48px}
   .frame{padding:34px 6px 6px}
   .bigword{font-size:34vw}
+}
+
+/* =====================================================================
+   ТЁМНАЯ ОСНОВА (06.10, «большая часть просто серая»): весь сайт на «сцене»,
+   светлое осталось только на карточках. Кейсы — стопка карточек, которые наезжают друг на друга.
+   ===================================================================== */
+body{background:var(--space)}
+.cases{padding-top:210px;padding-bottom:40px;overflow-x:clip}
+.cases::before{background:
+  radial-gradient(40% 30% at 10% 12%,rgba(25,127,255,.16),rgba(25,127,255,0) 70%),
+  radial-gradient(38% 26% at 92% 38%,rgba(140,80,255,.13),rgba(140,80,255,0) 70%),
+  radial-gradient(42% 28% at 12% 70%,rgba(21,188,223,.13),rgba(21,188,223,0) 70%),
+  radial-gradient(36% 24% at 88% 92%,rgba(25,127,255,.12),rgba(25,127,255,0) 70%)}
+.hiring{padding-top:120px;padding-bottom:120px;overflow-x:clip}
+.hiring::before{background:radial-gradient(45% 40% at 15% 40%,rgba(21,188,223,.16),rgba(21,188,223,0) 70%),radial-gradient(40% 35% at 90% 80%,rgba(140,80,255,.12),rgba(140,80,255,0) 70%)}
+.dark .note{color:var(--on-dark)}
+.dark .group{color:#fff}
+.dark .group::after{background:rgba(255,255,255,.12)}
+
+/* карточка кейса */
+.case{margin-top:28px;padding:48px;border:0;border-radius:28px;background:var(--paper2);color:var(--ink);
+  box-shadow:0 -24px 60px -20px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.6);
+  transform-origin:50% 0;transform:scale(var(--sc,1));filter:brightness(var(--br,1))}
+.case:last-of-type{border-bottom:0}
+@media (min-width:981px){
+  .case{position:sticky;top:var(--top,96px)}
+  .case__fig{position:static}
+}
+/* каждый второй кейс — тёмное стекло с бирюзовой кромкой */
+.case:nth-of-type(even){background:linear-gradient(160deg,#0f1a2c,#08101c 70%);color:#fff;
+  box-shadow:0 -24px 60px -20px rgba(0,0,0,.75),inset 0 0 0 1px rgba(63,208,239,.22),inset 0 1px 0 rgba(160,240,255,.25)}
+.case:nth-of-type(even) .case__meta,.case:nth-of-type(even) .nums li,.case:nth-of-type(even) .after,.case:nth-of-type(even) figcaption{color:var(--on-dark)}
+.case:nth-of-type(even) .story dd{color:#d3d8de}
+.case:nth-of-type(even) .story dt{color:var(--cyan-hi)}
+.case:nth-of-type(even) .nums{border-top-color:rgba(255,255,255,.12)}
+.case:nth-of-type(even) .nums b{color:#fff}
+.case:nth-of-type(even) .nums li:hover b{color:var(--cyan-hi)}
+.case:nth-of-type(even) .case__body::before{-webkit-text-stroke-color:var(--cyan-hi)}
+.case__fig{filter:drop-shadow(0 26px 34px rgba(0,0,0,.25))}
+
+/* разделитель групп — тоже «карточка» стопки: тёмная плашка, наезжает на предыдущий кейс */
+.cases .group{position:relative;margin:28px 0 0;padding:46px 48px;border-radius:28px;font-size:clamp(20px,2.4vw,30px);letter-spacing:.06em;
+  background:linear-gradient(120deg,#0b4f63,#0a2233 55%,#0a111d);box-shadow:0 -24px 60px -20px rgba(0,0,0,.7),inset 0 0 0 1px rgba(63,208,239,.3)}
+.cases .group::before{width:22px;height:22px}
+@media (min-width:981px){.cases .group{position:sticky;top:96px}}
+
+/* найм: яркая бирюзовая карточка и стеклянные плитки */
+.year__big{background:linear-gradient(150deg,#55dbf3 0%,#15bcdf 45%,#0a8fb0 100%);color:#04141b;
+  box-shadow:0 30px 80px -30px rgba(21,188,223,.7),inset 0 1px 0 rgba(255,255,255,.5)}
+.year__big::before{background:linear-gradient(to top,rgba(255,255,255,.18),rgba(255,255,255,0))}
+.year__big::after{background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.35),rgba(255,255,255,0) 60%)}
+.year__big .year__t{color:rgba(4,20,27,.78)}
+.year__big .year__n:not(.year__n--2){font-size:clamp(32px,3.5vw,50px)}
+.year__n em{color:#fff}
+.year__list{gap:16px}
+.year__list li{padding:20px 22px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035);color:var(--on-dark);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:transform .35s,border-color .3s,background .3s}
+.year__list li::before{display:none}
+.year__list li::after{left:22px;right:22px;width:auto;top:-1px;transform:scaleX(0);transform-origin:0 50%;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.year__list li:hover::after{width:auto;transform:scaleX(1)}
+.year__list li:hover{border-color:rgba(63,208,239,.45);background:rgba(63,208,239,.06);transform:translateY(-3px)}
+.year__list b{color:#fff}
+.year__list li:hover b{color:var(--cyan-hi)}
+.dark .auto li{color:var(--on-dark)}
+.dark .auto b{color:#fff}
+
+@media (max-width:980px){
+  .case{padding:32px 28px}
+  .cases .group{padding:32px 28px}
+}
+@media (max-width:640px){
+  .cases{padding-top:150px}
+  .case{padding:26px 18px;border-radius:22px;margin-top:20px}
+  .cases .group{padding:26px 18px;border-radius:22px;margin-top:20px;font-size:18px}
+  .hiring{padding:80px 0}
 }
