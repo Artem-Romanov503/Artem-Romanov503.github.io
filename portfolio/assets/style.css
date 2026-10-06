@@ -92,7 +92,7 @@ section[id],footer[id]{scroll-margin-top:96px}
 .burger{display:none}
 
 /* ---------- первый экран ---------- */
-.hero{position:relative;background:var(--space);color:#fff;padding-top:128px;overflow-x:clip;isolation:isolate}
+.hero{position:relative;z-index:2;background:var(--space);color:#fff;padding-top:128px;overflow-x:clip;isolation:isolate} /* z-index: окно цифр заходит на раздел кейсов и должно быть поверх него */
 .hero::before{content:"";position:absolute;inset:0;z-index:-2;
   background:linear-gradient(180deg,rgba(25,127,255,0) 30%,rgba(25,127,255,.05) 55%,rgba(25,127,255,.07) 75%,rgba(25,127,255,.03) 100%)}
 .stars{position:absolute;left:0;top:0;width:1px;height:1px;border-radius:50%;background:transparent;z-index:-1;pointer-events:none}
